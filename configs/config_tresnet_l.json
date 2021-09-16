@@ -1,0 +1,71 @@
+{
+    "name": "Covid19-tresnet_m_448",
+    "n_gpu": 1,
+
+    "arch": {
+        "type": "FinetuneEfficientNet",
+        "args": {"model_name": "tresnet_m_448",
+                 "num_classes": 4,
+                 "inchannels": 3,
+                 "pretrained": true}
+    },
+    "do_pseudo": false,
+    "unlabeled_dataset": {
+        "csv_path": "/home/ubuntu/cuong_test/AICOVIDVN/dataset/aicv115m_public_test/metadata_public_test.csv",
+        "audio_folder": "/home/ubuntu/cuong_test/AICOVIDVN/dataset/aicv115m_public_test/public_test_audio_files_8k/",
+        "training_batch_size": 16,
+        "num_workers": 10,
+        "mfcc_config":
+            {
+                "n_mfcc": 15, "n_fft": 1024, "hop_length": 256, "max_samples": 60000
+            }
+    },
+    "dataset": {
+        "csv_path": "/home/ubuntu/cuong_test/train_merge_study_kfold2.csv",
+        "images_dir": "/home/ubuntu/cuong_test/image",
+        "input_size": 448,
+        "training_batch_size": 32,
+        "validate_batch_size": 32,
+	"num_workers": 8
+    },
+    "data_loader": {
+        "type": "MnistDataLoader",
+        "args":{
+            "data_dir": "data/",
+            "batch_size": 128,
+            "shuffle": true,
+            "validation_split": 0.1,
+            "num_workers": 2
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 0.0005,
+            "weight_decay": 0.0001,
+            "amsgrad": true
+        }
+    },
+    "loss": "focal_binary_cross_entropy",
+    "metrics": [
+        "roc_auc"
+    ],
+    "lr_scheduler": {
+        "type": "StepLR",
+        "args": {
+            "step_size": 30,
+            "gamma": 0.33333
+        }
+    },
+    "trainer": {
+        "epochs": 100,
+
+        "save_dir": "saved/",
+        "save_period": 1,
+        "verbosity": 2,
+        "monitor": "max val_roc_auc",
+        "early_stop": 100,
+        "warmup": -1,
+        "tensorboard": true
+    }
+}

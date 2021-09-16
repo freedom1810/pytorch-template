@@ -1,0 +1,878 @@
+**********  fold 1 **********
+PlainCNNSmall(
+  (conv1): CoordConv2d(
+    1, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+    (addcoords): AddCoords()
+    (conv): Conv2d(4, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  )
+  (act0): ReLU()
+  (max_pool1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(64, 128, kernel_size=(2, 2), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): ReLU()
+  (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc1): Linear(in_features=128, out_features=256, bias=True)
+  (fc2): Linear(in_features=256, out_features=128, bias=True)
+  (fc3): Linear(in_features=128, out_features=1, bias=True)
+  (drop1): Dropout(p=0.5, inplace=False)
+  (drop2): Dropout(p=0.3, inplace=False)
+)
+Trainable parameters: 102081
+2021-07-30 17:01:55.555049: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-10.2/lib:/usr/local/cuda-10.2/lib
+2021-07-30 17:01:55.555093: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+Train Epoch: 1 [0/225 (0%)] Loss: 0.693608
+Train Epoch: 1 [45/225 (20%)] Loss: 0.652174
+Train Epoch: 1 [90/225 (40%)] Loss: 0.657310
+Train Epoch: 1 [135/225 (60%)] Loss: 0.645333
+Train Epoch: 1 [180/225 (80%)] Loss: 0.581796
+    epoch          : 1
+    loss           : 0.6310735661453671
+    roc_auc        : 0.6970755474320762
+    val_loss       : 0.5073443497049397
+    val_roc_auc    : 0.6797579278625031
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_170152/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 2 [0/225 (0%)] Loss: 0.635898
+Train Epoch: 2 [45/225 (20%)] Loss: 0.556095
+Train Epoch: 2 [90/225 (40%)] Loss: 0.718493
+Train Epoch: 2 [135/225 (60%)] Loss: 0.467351
+Train Epoch: 2 [180/225 (80%)] Loss: 0.461247
+    epoch          : 2
+    loss           : 0.5768694098790487
+    roc_auc        : 0.770556674222427
+    val_loss       : 0.6823207972378567
+    val_roc_auc    : 0.7420866618252238
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_170152/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 3 [0/225 (0%)] Loss: 0.910466
+Train Epoch: 3 [45/225 (20%)] Loss: 0.476824
+Train Epoch: 3 [90/225 (40%)] Loss: 0.511666
+Train Epoch: 3 [135/225 (60%)] Loss: 0.563644
+Train Epoch: 3 [180/225 (80%)] Loss: 0.435913
+    epoch          : 3
+    loss           : 0.5620676281717089
+    roc_auc        : 0.7857359789431058
+    val_loss       : 0.6140186683884983
+    val_roc_auc    : 0.7419801500847253
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_170152/checkpoint_fold1.pth ...
+Train Epoch: 4 [0/225 (0%)] Loss: 0.794682
+Train Epoch: 4 [45/225 (20%)] Loss: 0.410767
+Train Epoch: 4 [90/225 (40%)] Loss: 0.460719
+**********  fold 1 **********
+PlainCNNSmall(
+  (conv1): CoordConv2d(
+    1, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+    (addcoords): AddCoords()
+    (conv): Conv2d(4, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  )
+  (act0): ReLU()
+  (max_pool1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(64, 128, kernel_size=(2, 2), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): ReLU()
+  (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc1): Linear(in_features=128, out_features=256, bias=True)
+  (fc2): Linear(in_features=256, out_features=128, bias=True)
+  (fc3): Linear(in_features=128, out_features=1, bias=True)
+  (drop1): Dropout(p=0.5, inplace=False)
+  (drop2): Dropout(p=0.3, inplace=False)
+)
+Trainable parameters: 102081
+2021-07-30 17:15:52.743829: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-10.2/lib:/usr/local/cuda-10.2/lib
+2021-07-30 17:15:52.743878: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+Train Epoch: 1 [0/225 (0%)] Loss: 0.693608
+Train Epoch: 1 [45/225 (20%)] Loss: 0.652174
+Train Epoch: 1 [90/225 (40%)] Loss: 0.657310
+Train Epoch: 1 [135/225 (60%)] Loss: 0.645333
+Train Epoch: 1 [180/225 (80%)] Loss: 0.581796
+    epoch          : 1
+    loss           : 0.6310735661453671
+    roc_auc        : 0.6970755474320762
+    val_loss       : 0.5073443497049397
+    val_roc_auc    : 0.6797579278625031
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 2 [0/225 (0%)] Loss: 0.635898
+Train Epoch: 2 [45/225 (20%)] Loss: 0.556095
+Train Epoch: 2 [90/225 (40%)] Loss: 0.718493
+Train Epoch: 2 [135/225 (60%)] Loss: 0.467351
+Train Epoch: 2 [180/225 (80%)] Loss: 0.461247
+    epoch          : 2
+    loss           : 0.5768694098790487
+    roc_auc        : 0.770556674222427
+    val_loss       : 0.6823207972378567
+    val_roc_auc    : 0.7420866618252238
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 3 [0/225 (0%)] Loss: 0.910466
+Train Epoch: 3 [45/225 (20%)] Loss: 0.476824
+Train Epoch: 3 [90/225 (40%)] Loss: 0.511666
+Train Epoch: 3 [135/225 (60%)] Loss: 0.563644
+Train Epoch: 3 [180/225 (80%)] Loss: 0.435913
+    epoch          : 3
+    loss           : 0.5620676281717089
+    roc_auc        : 0.7857359789431058
+    val_loss       : 0.6140186683884983
+    val_roc_auc    : 0.7419801500847253
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 4 [0/225 (0%)] Loss: 0.794682
+Train Epoch: 4 [45/225 (20%)] Loss: 0.410767
+Train Epoch: 4 [90/225 (40%)] Loss: 0.460719
+Train Epoch: 4 [135/225 (60%)] Loss: 0.454476
+Train Epoch: 4 [180/225 (80%)] Loss: 0.357794
+    epoch          : 4
+    loss           : 0.5290524707900153
+    roc_auc        : 0.8155805104259394
+    val_loss       : 0.6003554391449896
+    val_roc_auc    : 0.7646865165819413
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 5 [0/225 (0%)] Loss: 0.472171
+Train Epoch: 5 [45/225 (20%)] Loss: 0.404571
+Train Epoch: 5 [90/225 (40%)] Loss: 0.552838
+Train Epoch: 5 [135/225 (60%)] Loss: 0.681325
+Train Epoch: 5 [180/225 (80%)] Loss: 0.735340
+    epoch          : 5
+    loss           : 0.5257521386941274
+    roc_auc        : 0.818662148497503
+    val_loss       : 0.7061780074547077
+    val_roc_auc    : 0.7719486807068506
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 6 [0/225 (0%)] Loss: 0.567652
+Train Epoch: 6 [45/225 (20%)] Loss: 0.329073
+Train Epoch: 6 [90/225 (40%)] Loss: 0.422441
+Train Epoch: 6 [135/225 (60%)] Loss: 0.382499
+Train Epoch: 6 [180/225 (80%)] Loss: 0.462916
+    epoch          : 6
+    loss           : 0.5018142884307437
+    roc_auc        : 0.8350054509470326
+    val_loss       : 0.42782523405962974
+    val_roc_auc    : 0.7836456063907045
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 7 [0/225 (0%)] Loss: 0.691492
+Train Epoch: 7 [45/225 (20%)] Loss: 0.613042
+Train Epoch: 7 [90/225 (40%)] Loss: 0.490794
+Train Epoch: 7 [135/225 (60%)] Loss: 0.442111
+Train Epoch: 7 [180/225 (80%)] Loss: 0.535190
+    epoch          : 7
+    loss           : 0.5072065630224016
+    roc_auc        : 0.831455995278307
+    val_loss       : 0.5458524031885739
+    val_roc_auc    : 0.7611813120309853
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 8 [0/225 (0%)] Loss: 0.455441
+Train Epoch: 8 [45/225 (20%)] Loss: 0.511657
+Train Epoch: 8 [90/225 (40%)] Loss: 0.467586
+Train Epoch: 8 [135/225 (60%)] Loss: 0.505259
+Train Epoch: 8 [180/225 (80%)] Loss: 0.333761
+    epoch          : 8
+    loss           : 0.4849227548307843
+    roc_auc        : 0.8481708956304155
+    val_loss       : 0.5116181692172741
+    val_roc_auc    : 0.7673396272089082
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 9 [0/225 (0%)] Loss: 0.522640
+Train Epoch: 9 [45/225 (20%)] Loss: 0.456895
+Train Epoch: 9 [90/225 (40%)] Loss: 0.295903
+Train Epoch: 9 [135/225 (60%)] Loss: 0.874056
+Train Epoch: 9 [180/225 (80%)] Loss: 0.694168
+    epoch          : 9
+    loss           : 0.4943020106686486
+    roc_auc        : 0.8414731261520758
+    val_loss       : 0.45477655941042405
+    val_roc_auc    : 0.7978213507625272
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 10 [0/225 (0%)] Loss: 0.381162
+Train Epoch: 10 [45/225 (20%)] Loss: 0.365029
+Train Epoch: 10 [90/225 (40%)] Loss: 0.481775
+Train Epoch: 10 [135/225 (60%)] Loss: 0.324404
+Train Epoch: 10 [180/225 (80%)] Loss: 0.240042
+    epoch          : 10
+    loss           : 0.4646112554603153
+    roc_auc        : 0.862406580648786
+    val_loss       : 0.4208900774347371
+    val_roc_auc    : 0.799273783587509
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 11 [0/225 (0%)] Loss: 0.427726
+Train Epoch: 11 [45/225 (20%)] Loss: 0.346076
+Train Epoch: 11 [90/225 (40%)] Loss: 0.384035
+Train Epoch: 11 [135/225 (60%)] Loss: 0.344751
+Train Epoch: 11 [180/225 (80%)] Loss: 0.252529
+    epoch          : 11
+    loss           : 0.4887412741449144
+    roc_auc        : 0.8434863084544614
+    val_loss       : 0.4335207394484816
+    val_roc_auc    : 0.777119341563786
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 12 [0/225 (0%)] Loss: 0.467733
+Train Epoch: 12 [45/225 (20%)] Loss: 0.408117
+Train Epoch: 12 [90/225 (40%)] Loss: 0.714611
+Train Epoch: 12 [135/225 (60%)] Loss: 0.233402
+Train Epoch: 12 [180/225 (80%)] Loss: 0.317297
+    epoch          : 12
+    loss           : 0.46322004669242434
+    roc_auc        : 0.8622700861080355
+    val_loss       : 0.49714015886701385
+    val_roc_auc    : 0.7750181554103123
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 13 [0/225 (0%)] Loss: 0.441224
+Train Epoch: 13 [45/225 (20%)] Loss: 0.448622
+Train Epoch: 13 [90/225 (40%)] Loss: 0.331012
+Train Epoch: 13 [135/225 (60%)] Loss: 0.196173
+Train Epoch: 13 [180/225 (80%)] Loss: 0.495662
+    epoch          : 13
+    loss           : 0.459144958058993
+    roc_auc        : 0.8657164091864742
+    val_loss       : 0.45267041335845815
+    val_roc_auc    : 0.7896586782861292
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 14 [0/225 (0%)] Loss: 0.401953
+Train Epoch: 14 [45/225 (20%)] Loss: 0.636278
+Train Epoch: 14 [90/225 (40%)] Loss: 0.502067
+Train Epoch: 14 [135/225 (60%)] Loss: 0.643379
+Train Epoch: 14 [180/225 (80%)] Loss: 0.273545
+    epoch          : 14
+    loss           : 0.45331835011641186
+    roc_auc        : 0.8692331274800952
+    val_loss       : 0.47552406685105686
+    val_roc_auc    : 0.8139820866618253
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 15 [0/225 (0%)] Loss: 0.377952
+Train Epoch: 15 [45/225 (20%)] Loss: 0.354105
+Train Epoch: 15 [90/225 (40%)] Loss: 0.688053
+Train Epoch: 15 [135/225 (60%)] Loss: 0.304176
+Train Epoch: 15 [180/225 (80%)] Loss: 0.298206
+    epoch          : 15
+    loss           : 0.44960247159004213
+    roc_auc        : 0.8709380211498685
+    val_loss       : 0.48327375794279165
+    val_roc_auc    : 0.7836262406197045
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 16 [0/225 (0%)] Loss: 0.506911
+Train Epoch: 16 [45/225 (20%)] Loss: 0.283131
+Train Epoch: 16 [90/225 (40%)] Loss: 0.244245
+Train Epoch: 16 [135/225 (60%)] Loss: 0.293486
+Train Epoch: 16 [180/225 (80%)] Loss: 0.329538
+    epoch          : 16
+    loss           : 0.44226167956988016
+    roc_auc        : 0.8754792145881255
+    val_loss       : 0.4766138391248111
+    val_roc_auc    : 0.8181554103122731
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 17 [0/225 (0%)] Loss: 0.370542
+Train Epoch: 17 [45/225 (20%)] Loss: 0.521526
+Train Epoch: 17 [90/225 (40%)] Loss: 0.441912
+Train Epoch: 17 [135/225 (60%)] Loss: 0.729948
+Train Epoch: 17 [180/225 (80%)] Loss: 0.414833
+    epoch          : 17
+    loss           : 0.44016755170292327
+    roc_auc        : 0.8780526290273922
+    val_loss       : 0.4607289854822488
+    val_roc_auc    : 0.821350762527233
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 18 [0/225 (0%)] Loss: 0.408590
+Train Epoch: 18 [45/225 (20%)] Loss: 0.311706
+Train Epoch: 18 [90/225 (40%)] Loss: 0.554678
+Train Epoch: 18 [135/225 (60%)] Loss: 0.204379
+Train Epoch: 18 [180/225 (80%)] Loss: 0.281474
+    epoch          : 18
+    loss           : 0.41367515709665087
+    roc_auc        : 0.8930259058803818
+    val_loss       : 0.42390432594151334
+    val_roc_auc    : 0.8230355846042121
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 19 [0/225 (0%)] Loss: 0.243645
+Train Epoch: 19 [45/225 (20%)] Loss: 0.207216
+Train Epoch: 19 [90/225 (40%)] Loss: 0.324213
+Train Epoch: 19 [135/225 (60%)] Loss: 0.304907
+Train Epoch: 19 [180/225 (80%)] Loss: 0.497886
+    epoch          : 19
+    loss           : 0.4114980838033888
+    roc_auc        : 0.8936596030529826
+    val_loss       : 0.4647622709644252
+    val_roc_auc    : 0.818717017671266
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 20 [0/225 (0%)] Loss: 0.496790
+Train Epoch: 20 [45/225 (20%)] Loss: 0.274381
+Train Epoch: 20 [90/225 (40%)] Loss: 0.406107
+Train Epoch: 20 [135/225 (60%)] Loss: 0.374208
+Train Epoch: 20 [180/225 (80%)] Loss: 0.302448
+    epoch          : 20
+    loss           : 0.4139906834893756
+    roc_auc        : 0.890482272200336
+    val_loss       : 0.4549120469339963
+    val_roc_auc    : 0.8208859840232389
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 21 [0/225 (0%)] Loss: 0.286184
+Train Epoch: 21 [45/225 (20%)] Loss: 0.328351
+Train Epoch: 21 [90/225 (40%)] Loss: 0.279053
+Train Epoch: 21 [135/225 (60%)] Loss: 0.259303
+Train Epoch: 21 [180/225 (80%)] Loss: 0.372176
+    epoch          : 21
+    loss           : 0.3991862644751867
+    roc_auc        : 0.9010572366698124
+    val_loss       : 0.49115899564891025
+    val_roc_auc    : 0.8161316872427984
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 22 [0/225 (0%)] Loss: 0.521342
+Train Epoch: 22 [45/225 (20%)] Loss: 0.283918
+Train Epoch: 22 [90/225 (40%)] Loss: 0.250483
+Train Epoch: 22 [135/225 (60%)] Loss: 0.373319
+Train Epoch: 22 [180/225 (80%)] Loss: 0.332710
+    epoch          : 22
+    loss           : 0.4008598217036989
+    roc_auc        : 0.8992514843918553
+    val_loss       : 0.45257428750909606
+    val_roc_auc    : 0.8254466230936819
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 23 [0/225 (0%)] Loss: 0.425192
+Train Epoch: 23 [45/225 (20%)] Loss: 0.300367
+Train Epoch: 23 [90/225 (40%)] Loss: 0.521092
+Train Epoch: 23 [135/225 (60%)] Loss: 0.323320
+Train Epoch: 23 [180/225 (80%)] Loss: 0.516624
+    epoch          : 23
+    loss           : 0.42026514497068196
+    roc_auc        : 0.8876562581547308
+    val_loss       : 0.4510949721624111
+    val_roc_auc    : 0.8199757927862503
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 24 [0/225 (0%)] Loss: 0.296462
+Train Epoch: 24 [45/225 (20%)] Loss: 0.320025
+Train Epoch: 24 [90/225 (40%)] Loss: 0.283368
+Train Epoch: 24 [135/225 (60%)] Loss: 0.449635
+Train Epoch: 24 [180/225 (80%)] Loss: 0.408358
+    epoch          : 24
+    loss           : 0.4022841381364399
+    roc_auc        : 0.8985070609313244
+    val_loss       : 0.45885240723346843
+    val_roc_auc    : 0.8200048414427499
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 25 [0/225 (0%)] Loss: 0.412779
+Train Epoch: 25 [45/225 (20%)] Loss: 0.648904
+Train Epoch: 25 [90/225 (40%)] Loss: 0.507125
+Train Epoch: 25 [135/225 (60%)] Loss: 0.392760
+Train Epoch: 25 [180/225 (80%)] Loss: 0.386850
+    epoch          : 25
+    loss           : 0.4019594564040502
+    roc_auc        : 0.8985969261768831
+    val_loss       : 0.4593154099480859
+    val_roc_auc    : 0.8199467441297507
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 26 [0/225 (0%)] Loss: 0.754460
+Train Epoch: 26 [45/225 (20%)] Loss: 0.206125
+Train Epoch: 26 [90/225 (40%)] Loss: 0.540406
+Train Epoch: 26 [135/225 (60%)] Loss: 0.630901
+Train Epoch: 26 [180/225 (80%)] Loss: 0.262367
+    epoch          : 26
+    loss           : 0.4030751266413265
+    roc_auc        : 0.8975210835675953
+    val_loss       : 0.441180603257541
+    val_roc_auc    : 0.8195400629387558
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 27 [0/225 (0%)] Loss: 0.463620
+Train Epoch: 27 [45/225 (20%)] Loss: 0.424931
+Train Epoch: 27 [90/225 (40%)] Loss: 0.410469
+Train Epoch: 27 [135/225 (60%)] Loss: 0.304743
+Train Epoch: 27 [180/225 (80%)] Loss: 0.204043
+    epoch          : 27
+    loss           : 0.4092208163605796
+    roc_auc        : 0.895200160498781
+    val_loss       : 0.4524560077437039
+    val_roc_auc    : 0.8219995158557248
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 28 [0/225 (0%)] Loss: 0.247946
+Train Epoch: 28 [45/225 (20%)] Loss: 0.265985
+Train Epoch: 28 [90/225 (40%)] Loss: 0.209295
+Train Epoch: 28 [135/225 (60%)] Loss: 0.206495
+Train Epoch: 28 [180/225 (80%)] Loss: 0.882877
+    epoch          : 28
+    loss           : 0.4004545226362016
+    roc_auc        : 0.8987669674735801
+    val_loss       : 0.423975966100035
+    val_roc_auc    : 0.8233938513677075
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 29 [0/225 (0%)] Loss: 0.550612
+Train Epoch: 29 [45/225 (20%)] Loss: 0.230704
+Train Epoch: 29 [90/225 (40%)] Loss: 0.357375
+Train Epoch: 29 [135/225 (60%)] Loss: 0.295905
+Train Epoch: 29 [180/225 (80%)] Loss: 0.590377
+    epoch          : 29
+    loss           : 0.4031291371583939
+    roc_auc        : 0.8977939758976589
+    val_loss       : 0.46271099150180817
+    val_roc_auc    : 0.8260179133381749
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 30 [0/225 (0%)] Loss: 0.757281
+Train Epoch: 30 [45/225 (20%)] Loss: 0.292999
+Train Epoch: 30 [90/225 (40%)] Loss: 0.414261
+Train Epoch: 30 [135/225 (60%)] Loss: 0.300921
+Train Epoch: 30 [180/225 (80%)] Loss: 0.407917
+    epoch          : 30
+    loss           : 0.403433609339926
+    roc_auc        : 0.8980601696043113
+    val_loss       : 0.4480707244626407
+    val_roc_auc    : 0.8226676349552167
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 31 [0/225 (0%)] Loss: 0.348856
+Train Epoch: 31 [45/225 (20%)] Loss: 0.573163
+Train Epoch: 31 [90/225 (40%)] Loss: 0.438843
+Train Epoch: 31 [135/225 (60%)] Loss: 0.211717
+Train Epoch: 31 [180/225 (80%)] Loss: 0.453754
+    epoch          : 31
+    loss           : 0.4150952363676495
+    roc_auc        : 0.8900578889603568
+    val_loss       : 0.4662135639067354
+    val_roc_auc    : 0.825359477124183
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 32 [0/225 (0%)] Loss: 0.743911
+Train Epoch: 32 [45/225 (20%)] Loss: 0.432456
+Train Epoch: 32 [90/225 (40%)] Loss: 0.245328
+Train Epoch: 32 [135/225 (60%)] Loss: 0.237786
+Train Epoch: 32 [180/225 (80%)] Loss: 0.604191
+    epoch          : 32
+    loss           : 0.4113573531309764
+    roc_auc        : 0.894551620772756
+    val_loss       : 0.4387415256993524
+    val_roc_auc    : 0.8274025659646576
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 33 [0/225 (0%)] Loss: 0.546686
+Train Epoch: 33 [45/225 (20%)] Loss: 0.272750
+Train Epoch: 33 [90/225 (40%)] Loss: 0.378959
+Train Epoch: 33 [135/225 (60%)] Loss: 0.273555
+Train Epoch: 33 [180/225 (80%)] Loss: 0.703804
+    epoch          : 33
+    loss           : 0.3917187301317851
+    roc_auc        : 0.9040764802347233
+    val_loss       : 0.44198333651855076
+    val_roc_auc    : 0.8270539820866618
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 34 [0/225 (0%)] Loss: 0.312713
+Train Epoch: 34 [45/225 (20%)] Loss: 0.297054
+Train Epoch: 34 [90/225 (40%)] Loss: 0.209921
+Train Epoch: 34 [135/225 (60%)] Loss: 0.591996
+Train Epoch: 34 [180/225 (80%)] Loss: 0.177833
+    epoch          : 34
+    loss           : 0.40715726643800737
+    roc_auc        : 0.8946957960228508
+    val_loss       : 0.4226395492923671
+    val_roc_auc    : 0.8230743161462115
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 35 [0/225 (0%)] Loss: 0.619089
+Train Epoch: 35 [45/225 (20%)] Loss: 0.286959
+Train Epoch: 35 [90/225 (40%)] Loss: 0.274185
+Train Epoch: 35 [135/225 (60%)] Loss: 0.296502
+Train Epoch: 35 [180/225 (80%)] Loss: 0.564533
+    epoch          : 35
+    loss           : 0.3959424748023351
+    roc_auc        : 0.9017775913160708
+    val_loss       : 0.429253073088054
+    val_roc_auc    : 0.8253497942386829
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 36 [0/225 (0%)] Loss: 0.466799
+Train Epoch: 36 [45/225 (20%)] Loss: 0.279339
+Train Epoch: 36 [90/225 (40%)] Loss: 0.219226
+Train Epoch: 36 [135/225 (60%)] Loss: 0.247122
+Train Epoch: 36 [180/225 (80%)] Loss: 0.454426
+    epoch          : 36
+    loss           : 0.3888436267111037
+    roc_auc        : 0.9062876253974153
+    val_loss       : 0.44598404600702485
+    val_roc_auc    : 0.8294747034616314
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 37 [0/225 (0%)] Loss: 0.256722
+Train Epoch: 37 [45/225 (20%)] Loss: 0.276074
+Train Epoch: 37 [90/225 (40%)] Loss: 0.251928
+Train Epoch: 37 [135/225 (60%)] Loss: 0.416962
+Train Epoch: 37 [180/225 (80%)] Loss: 0.195578
+    epoch          : 37
+    loss           : 0.3975301892227597
+    roc_auc        : 0.9002828566172522
+    val_loss       : 0.4398683700068244
+    val_roc_auc    : 0.8321084483175987
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 38 [0/225 (0%)] Loss: 0.314154
+Train Epoch: 38 [45/225 (20%)] Loss: 0.377802
+Train Epoch: 38 [90/225 (40%)] Loss: 0.323245
+Train Epoch: 38 [135/225 (60%)] Loss: 0.618214
+Train Epoch: 38 [180/225 (80%)] Loss: 0.253810
+    epoch          : 38
+    loss           : 0.3782202941841549
+    roc_auc        : 0.9114589959228743
+    val_loss       : 0.4395143924088314
+    val_roc_auc    : 0.8315177923021061
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 39 [0/225 (0%)] Loss: 0.840484
+Train Epoch: 39 [45/225 (20%)] Loss: 0.165907
+Train Epoch: 39 [90/225 (40%)] Loss: 0.465704
+Train Epoch: 39 [135/225 (60%)] Loss: 0.546359
+Train Epoch: 39 [180/225 (80%)] Loss: 0.406979
+    epoch          : 39
+    loss           : 0.4107380944490433
+    roc_auc        : 0.8931765893511129
+    val_loss       : 0.436494795926686
+    val_roc_auc    : 0.8309368191721133
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 40 [0/225 (0%)] Loss: 0.371022
+Train Epoch: 40 [45/225 (20%)] Loss: 0.392603
+Train Epoch: 40 [90/225 (40%)] Loss: 0.457323
+Train Epoch: 40 [135/225 (60%)] Loss: 0.498156
+Train Epoch: 40 [180/225 (80%)] Loss: 0.255201
+    epoch          : 40
+    loss           : 0.39666410164700616
+    roc_auc        : 0.90107555695784
+    val_loss       : 0.45334451876837634
+    val_roc_auc    : 0.8309174534011134
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 41 [0/225 (0%)] Loss: 0.487450
+Train Epoch: 41 [45/225 (20%)] Loss: 0.605611
+Train Epoch: 41 [90/225 (40%)] Loss: 0.412541
+Train Epoch: 41 [135/225 (60%)] Loss: 0.305700
+Train Epoch: 41 [180/225 (80%)] Loss: 0.252582
+    epoch          : 41
+    loss           : 0.414163426094585
+    roc_auc        : 0.8918429592637415
+    val_loss       : 0.4622136626777978
+    val_roc_auc    : 0.831353183248608
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 42 [0/225 (0%)] Loss: 0.764110
+Train Epoch: 42 [45/225 (20%)] Loss: 0.290572
+Train Epoch: 42 [90/225 (40%)] Loss: 0.444208
+Train Epoch: 42 [135/225 (60%)] Loss: 0.358726
+Train Epoch: 42 [180/225 (80%)] Loss: 0.268937
+    epoch          : 42
+    loss           : 0.38467114872402614
+    roc_auc        : 0.907645191130551
+    val_loss       : 0.4698750813459528
+    val_roc_auc    : 0.8285935608811426
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 43 [0/225 (0%)] Loss: 0.396438
+Train Epoch: 43 [45/225 (20%)] Loss: 0.328279
+Train Epoch: 43 [90/225 (40%)] Loss: 0.463897
+Train Epoch: 43 [135/225 (60%)] Loss: 0.451466
+Train Epoch: 43 [180/225 (80%)] Loss: 0.409177
+    epoch          : 43
+    loss           : 0.4033378105693393
+    roc_auc        : 0.8972117112512665
+    val_loss       : 0.44151989499042776
+    val_roc_auc    : 0.8346066327765674
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 44 [0/225 (0%)] Loss: 0.525345
+Train Epoch: 44 [45/225 (20%)] Loss: 0.344435
+Train Epoch: 44 [90/225 (40%)] Loss: 0.904331
+Train Epoch: 44 [135/225 (60%)] Loss: 0.460301
+Train Epoch: 44 [180/225 (80%)] Loss: 0.325537
+    epoch          : 44
+    loss           : 0.4086725837654538
+    roc_auc        : 0.8947797436708618
+    val_loss       : 0.45852221240257396
+    val_roc_auc    : 0.8294650205761316
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 45 [0/225 (0%)] Loss: 0.445952
+Train Epoch: 45 [45/225 (20%)] Loss: 0.455980
+Train Epoch: 45 [90/225 (40%)] Loss: 0.511937
+Train Epoch: 45 [135/225 (60%)] Loss: 0.400321
+Train Epoch: 45 [180/225 (80%)] Loss: 0.358487
+    epoch          : 45
+    loss           : 0.3867346026500066
+    roc_auc        : 0.9057081366475732
+    val_loss       : 0.43765299381880923
+    val_roc_auc    : 0.832156862745098
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 46 [0/225 (0%)] Loss: 0.134988
+Train Epoch: 46 [45/225 (20%)] Loss: 0.373452
+Train Epoch: 46 [90/225 (40%)] Loss: 0.321851
+Train Epoch: 46 [135/225 (60%)] Loss: 0.500049
+Train Epoch: 46 [180/225 (80%)] Loss: 0.443071
+    epoch          : 46
+    loss           : 0.38709279947810704
+    roc_auc        : 0.9060455156031626
+    val_loss       : 0.4660944486486501
+    val_roc_auc    : 0.8314596949891067
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 47 [0/225 (0%)] Loss: 0.536055
+Train Epoch: 47 [45/225 (20%)] Loss: 0.363831
+Train Epoch: 47 [90/225 (40%)] Loss: 0.359050
+Train Epoch: 47 [135/225 (60%)] Loss: 0.344270
+Train Epoch: 47 [180/225 (80%)] Loss: 0.362095
+    epoch          : 47
+    loss           : 0.40191191441482965
+    roc_auc        : 0.8976418746935635
+    val_loss       : 0.44893690224351557
+    val_roc_auc    : 0.8293294601791333
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 48 [0/225 (0%)] Loss: 0.135514
+Train Epoch: 48 [45/225 (20%)] Loss: 0.139315
+Train Epoch: 48 [90/225 (40%)] Loss: 0.576460
+Train Epoch: 48 [135/225 (60%)] Loss: 0.306249
+Train Epoch: 48 [180/225 (80%)] Loss: 0.315252
+    epoch          : 48
+    loss           : 0.3889510590500302
+    roc_auc        : 0.9042166562335245
+    val_loss       : 0.4474543882855054
+    val_roc_auc    : 0.8320213023480997
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 49 [0/225 (0%)] Loss: 0.502681
+Train Epoch: 49 [45/225 (20%)] Loss: 0.366166
+Train Epoch: 49 [90/225 (40%)] Loss: 0.746807
+Train Epoch: 49 [135/225 (60%)] Loss: 0.488787
+Train Epoch: 49 [180/225 (80%)] Loss: 0.518981
+    epoch          : 49
+    loss           : 0.4010056566529804
+    roc_auc        : 0.8983227139786593
+    val_loss       : 0.4642815199391595
+    val_roc_auc    : 0.8241684822076977
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Train Epoch: 50 [0/225 (0%)] Loss: 0.293227
+Train Epoch: 50 [45/225 (20%)] Loss: 0.394836
+Train Epoch: 50 [90/225 (40%)] Loss: 0.339682
+Train Epoch: 50 [135/225 (60%)] Loss: 0.520939
+Train Epoch: 50 [180/225 (80%)] Loss: 0.440942
+    epoch          : 50
+    loss           : 0.39723340067598556
+    roc_auc        : 0.9003974471521226
+    val_loss       : 0.4577401002933239
+    val_roc_auc    : 0.8354296780440571
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold1.pth ...
+Saving current best: model_best.pth ...
+[Fold-1]: Best score: 0.8354296780440571 at epoch 50
+**********  fold 2 **********
+PlainCNNSmall(
+  (conv1): CoordConv2d(
+    1, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+    (addcoords): AddCoords()
+    (conv): Conv2d(4, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  )
+  (act0): ReLU()
+  (max_pool1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(64, 128, kernel_size=(2, 2), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act1): ReLU()
+  (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc1): Linear(in_features=128, out_features=256, bias=True)
+  (fc2): Linear(in_features=256, out_features=128, bias=True)
+  (fc3): Linear(in_features=128, out_features=1, bias=True)
+  (drop1): Dropout(p=0.5, inplace=False)
+  (drop2): Dropout(p=0.3, inplace=False)
+)
+Trainable parameters: 102081
+Train Epoch: 1 [0/225 (0%)] Loss: 0.691366
+Train Epoch: 1 [45/225 (20%)] Loss: 0.730105
+Train Epoch: 1 [90/225 (40%)] Loss: 0.617187
+Train Epoch: 1 [135/225 (60%)] Loss: 0.593610
+Train Epoch: 1 [180/225 (80%)] Loss: 0.705152
+    epoch          : 1
+    loss           : 0.6374836308426327
+    roc_auc        : 0.6780858977128924
+    val_loss       : 0.5076037912533201
+    val_roc_auc    : 0.7530670539820867
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 2 [0/225 (0%)] Loss: 0.715552
+Train Epoch: 2 [45/225 (20%)] Loss: 0.561196
+Train Epoch: 2 [90/225 (40%)] Loss: 0.525042
+Train Epoch: 2 [135/225 (60%)] Loss: 0.541564
+Train Epoch: 2 [180/225 (80%)] Loss: 0.655606
+    epoch          : 2
+    loss           : 0.5999223898516761
+    roc_auc        : 0.7449894071981669
+    val_loss       : 0.7114208916137958
+    val_roc_auc    : 0.7922924231420962
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 3 [0/225 (0%)] Loss: 0.540073
+Train Epoch: 3 [45/225 (20%)] Loss: 0.705618
+Train Epoch: 3 [90/225 (40%)] Loss: 0.668563
+Train Epoch: 3 [135/225 (60%)] Loss: 0.889840
+Train Epoch: 3 [180/225 (80%)] Loss: 0.506332
+    epoch          : 3
+    loss           : 0.5652225685119628
+    roc_auc        : 0.7828053160387376
+    val_loss       : 0.45178951168882436
+    val_roc_auc    : 0.6073880416364077
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 4 [0/225 (0%)] Loss: 0.667791
+Train Epoch: 4 [45/225 (20%)] Loss: 0.664257
+Train Epoch: 4 [90/225 (40%)] Loss: 0.649667
+Train Epoch: 4 [135/225 (60%)] Loss: 0.752701
+Train Epoch: 4 [180/225 (80%)] Loss: 0.656565
+    epoch          : 4
+    loss           : 0.5522291917271084
+    roc_auc        : 0.7948520006519034
+    val_loss       : 0.4424206408961066
+    val_roc_auc    : 0.7927765674170903
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 5 [0/225 (0%)] Loss: 0.589021
+Train Epoch: 5 [45/225 (20%)] Loss: 0.380686
+Train Epoch: 5 [90/225 (40%)] Loss: 0.412306
+Train Epoch: 5 [135/225 (60%)] Loss: 0.481506
+Train Epoch: 5 [180/225 (80%)] Loss: 0.553873
+    epoch          : 5
+    loss           : 0.5400202239884271
+    roc_auc        : 0.8069380332568311
+    val_loss       : 0.5097641153582211
+    val_roc_auc    : 0.8136916000968288
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 6 [0/225 (0%)] Loss: 0.469721
+Train Epoch: 6 [45/225 (20%)] Loss: 0.445129
+Train Epoch: 6 [90/225 (40%)] Loss: 0.698448
+Train Epoch: 6 [135/225 (60%)] Loss: 0.998844
+Train Epoch: 6 [180/225 (80%)] Loss: 0.509257
+    epoch          : 6
+    loss           : 0.5145417168405321
+    roc_auc        : 0.8230201171377641
+    val_loss       : 0.6209849643296209
+    val_roc_auc    : 0.803766642459453
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 7 [0/225 (0%)] Loss: 0.410969
+Train Epoch: 7 [45/225 (20%)] Loss: 0.710805
+Train Epoch: 7 [90/225 (40%)] Loss: 0.424106
+Train Epoch: 7 [135/225 (60%)] Loss: 0.429833
+Train Epoch: 7 [180/225 (80%)] Loss: 0.570836
+    epoch          : 7
+    loss           : 0.523129844268163
+    roc_auc        : 0.8203128954714545
+    val_loss       : 0.4566626826236988
+    val_roc_auc    : 0.7966981360445414
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 8 [0/225 (0%)] Loss: 0.425215
+Train Epoch: 8 [45/225 (20%)] Loss: 0.479960
+Train Epoch: 8 [90/225 (40%)] Loss: 0.368607
+Train Epoch: 8 [135/225 (60%)] Loss: 0.537884
+Train Epoch: 8 [180/225 (80%)] Loss: 0.725801
+    epoch          : 8
+    loss           : 0.5167447737852733
+    roc_auc        : 0.8256952375073305
+    val_loss       : 0.43981344638199643
+    val_roc_auc    : 0.8326797385620914
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 9 [0/225 (0%)] Loss: 0.509532
+Train Epoch: 9 [45/225 (20%)] Loss: 0.463364
+Train Epoch: 9 [90/225 (40%)] Loss: 0.529252
+Train Epoch: 9 [135/225 (60%)] Loss: 0.368427
+Train Epoch: 9 [180/225 (80%)] Loss: 0.378257
+    epoch          : 9
+    loss           : 0.5032366720173094
+    roc_auc        : 0.835344107956987
+    val_loss       : 0.5365886832105702
+    val_roc_auc    : 0.8366884531590414
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 10 [0/225 (0%)] Loss: 0.516746
+Train Epoch: 10 [45/225 (20%)] Loss: 0.381922
+Train Epoch: 10 [90/225 (40%)] Loss: 0.559667
+Train Epoch: 10 [135/225 (60%)] Loss: 0.585120
+Train Epoch: 10 [180/225 (80%)] Loss: 0.476575
+    epoch          : 10
+    loss           : 0.508894359005822
+    roc_auc        : 0.8305687964434173
+    val_loss       : 0.4581539589783241
+    val_roc_auc    : 0.8242943597191964
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 11 [0/225 (0%)] Loss: 0.473151
+Train Epoch: 11 [45/225 (20%)] Loss: 0.529634
+Train Epoch: 11 [90/225 (40%)] Loss: 0.430235
+Train Epoch: 11 [135/225 (60%)] Loss: 0.508078
+Train Epoch: 11 [180/225 (80%)] Loss: 0.757708
+    epoch          : 11
+    loss           : 0.5124414531389873
+    roc_auc        : 0.8257876153047555
+    val_loss       : 0.3545892706205105
+    val_roc_auc    : 0.8300556765916243
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 12 [0/225 (0%)] Loss: 0.480840
+Train Epoch: 12 [45/225 (20%)] Loss: 0.414148
+Train Epoch: 12 [90/225 (40%)] Loss: 0.513677
+Train Epoch: 12 [135/225 (60%)] Loss: 0.645433
+Train Epoch: 12 [180/225 (80%)] Loss: 0.616813
+    epoch          : 12
+    loss           : 0.5064805733495289
+    roc_auc        : 0.8335413467103994
+    val_loss       : 0.4932701649336979
+    val_roc_auc    : 0.8406003389009924
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 13 [0/225 (0%)] Loss: 0.446051
+Train Epoch: 13 [45/225 (20%)] Loss: 0.524028
+Train Epoch: 13 [90/225 (40%)] Loss: 0.334630
+Train Epoch: 13 [135/225 (60%)] Loss: 0.480162
+Train Epoch: 13 [180/225 (80%)] Loss: 0.525533
+    epoch          : 13
+    loss           : 0.48828852348857454
+    roc_auc        : 0.8453997793860607
+    val_loss       : 0.7992920135629589
+    val_roc_auc    : 0.8275478092471557
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 14 [0/225 (0%)] Loss: 0.365686
+Train Epoch: 14 [45/225 (20%)] Loss: 0.312503
+Train Epoch: 14 [90/225 (40%)] Loss: 0.543915
+Train Epoch: 14 [135/225 (60%)] Loss: 0.419434
+Train Epoch: 14 [180/225 (80%)] Loss: 0.523968
+    epoch          : 14
+    loss           : 0.4752425683206982
+    roc_auc        : 0.8553887502992764
+    val_loss       : 0.4340031033959882
+    val_roc_auc    : 0.8504381505688695
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 15 [0/225 (0%)] Loss: 0.512125
+Train Epoch: 15 [45/225 (20%)] Loss: 0.388071
+Train Epoch: 15 [90/225 (40%)] Loss: 0.367958
+Train Epoch: 15 [135/225 (60%)] Loss: 0.493656
+Train Epoch: 15 [180/225 (80%)] Loss: 0.486136
+    epoch          : 15
+    loss           : 0.47337003065480127
+    roc_auc        : 0.8560476386422351
+    val_loss       : 0.5915612218708828
+    val_roc_auc    : 0.8449285887194383
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 16 [0/225 (0%)] Loss: 0.587398
+Train Epoch: 16 [45/225 (20%)] Loss: 0.347285
+Train Epoch: 16 [90/225 (40%)] Loss: 0.519813
+Train Epoch: 16 [135/225 (60%)] Loss: 0.653424
+Train Epoch: 16 [180/225 (80%)] Loss: 0.508426
+    epoch          : 16
+    loss           : 0.4476619511180454
+    roc_auc        : 0.8743818049304963
+    val_loss       : 0.43740494292357873
+    val_roc_auc    : 0.8489469862018881
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Train Epoch: 17 [0/225 (0%)] Loss: 0.382201
+Train Epoch: 17 [45/225 (20%)] Loss: 0.372632
+Train Epoch: 17 [90/225 (40%)] Loss: 0.467821
+Train Epoch: 17 [135/225 (60%)] Loss: 0.332732
+Train Epoch: 17 [180/225 (80%)] Loss: 0.518364
+    epoch          : 17
+    loss           : 0.4552764744891061
+    roc_auc        : 0.8676986020970398
+    val_loss       : 0.43193451803306054
+    val_roc_auc    : 0.8512515129508593
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...
+Saving current best: model_best.pth ...
+Train Epoch: 18 [0/225 (0%)] Loss: 0.328418
+Train Epoch: 18 [45/225 (20%)] Loss: 0.322089
+Train Epoch: 18 [90/225 (40%)] Loss: 0.732295
+Train Epoch: 18 [135/225 (60%)] Loss: 0.320044
+Train Epoch: 18 [180/225 (80%)] Loss: 0.351287
+    epoch          : 18
+    loss           : 0.42936978313657975
+    roc_auc        : 0.8845998575306881
+    val_loss       : 0.435833937135236
+    val_roc_auc    : 0.8494504962478819
+Saving checkpoint: saved/models/Covid19-PlainCNN/0730_171549/checkpoint_fold2.pth ...

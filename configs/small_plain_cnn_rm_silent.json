@@ -1,0 +1,68 @@
+{
+    "name": "Covid19-PlainCNN",
+    "n_gpu": 1,
+
+    "arch": {
+        "type": "PlainCNNSmall",
+        "args": {
+                 "num_classes": 1,
+                 "inchannels": 1,
+                 "pretrained": true}
+    },
+    "do_pseudo": false,
+    "unlabeled_dataset": {
+        "csv_path": "/home/ubuntu/cuong_test/AICOVIDVN/dataset/aicv115m_public_test/metadata_public_test.csv",
+        "audio_folder": "/home/ubuntu/cuong_test/AICOVIDVN/dataset/aicv115m_public_test/public_test_audio_files_8k/",
+        "training_batch_size": 16,
+        "num_workers": 10
+    },
+    "dataset": {
+        "csv_path": "/media/sonnh/AICOVIDVN/aicv115m_public_train/metadata_train_challenge_kfold2.csv",
+        "audio_folder": "/media/sonnh/AICOVIDVN/aicv115m_public_train/train_audio_files_8k/",
+        "training_batch_size": 128,
+        "validate_batch_size": 32,
+        "num_workers": 10,
+        "mfcc_config":
+            {
+                "do_remove_silent": true, "n_mfcc": 15, "n_fft": 1024, "hop_length": 256, "max_samples": 80000
+            }
+    },
+    "data_loader": {
+        "type": "MnistDataLoader",
+        "args":{
+            "data_dir": "data/",
+            "batch_size": 128,
+            "shuffle": true,
+            "validation_split": 0.1,
+            "num_workers": 2
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 0.0005
+        }
+    },
+    "loss": "bce_with_logits_loss",
+    "metrics": [
+        "roc_auc"
+    ],
+    "lr_scheduler": {
+        "type": "StepLR",
+        "args": {
+            "step_size": 30,
+            "gamma": 0.1
+        }
+    },
+    "trainer": {
+        "epochs": 100,
+
+        "save_dir": "saved/",
+        "save_period": 1,
+        "verbosity": 2,
+        "monitor": "max val_roc_auc",
+        "early_stop": 100,
+
+        "tensorboard": true
+    }
+}

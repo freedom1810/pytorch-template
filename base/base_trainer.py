@@ -1,19 +1,21 @@
 import torch
+import os
 from abc import abstractmethod
 from numpy import inf
 from logger import TensorboardWriter
-
+from torch import nn
 
 class BaseTrainer:
     """
     Base class for all trainers
     """
-    def __init__(self, model, criterion, metric_ftns, optimizer, config):
+    def __init__(self, model, train_criterion, val_criterion, metric_ftns, optimizer, config, fold_idx=0, warmup=0):
         self.config = config
         self.logger = config.get_logger('trainer', config['trainer']['verbosity'])
 
         self.model = model
-        self.criterion = criterion
+        self.train_criterion = train_criterion
+        self.val_criterion = val_criterion
         self.metric_ftns = metric_ftns
         self.optimizer = optimizer
 
@@ -21,6 +23,9 @@ class BaseTrainer:
         self.epochs = cfg_trainer['epochs']
         self.save_period = cfg_trainer['save_period']
         self.monitor = cfg_trainer.get('monitor', 'off')
+        self.only_save_best = cfg_trainer.get("only_save_best", True)
+
+        self.ema = None
 
         # configuration to monitor model performance and save best
         if self.monitor == 'off':
@@ -38,13 +43,19 @@ class BaseTrainer:
         self.start_epoch = 1
 
         self.checkpoint_dir = config.save_dir
-
-        # setup visualization writer instance                
+        if not os.path.exists(self.checkpoint_dir):
+            os.makedirs(self.checkpoint_dir)
+        # setup visualization writer instance
         self.writer = TensorboardWriter(config.log_dir, self.logger, cfg_trainer['tensorboard'])
-
+        self.fold_idx = fold_idx
         if config.resume is not None:
             self._resume_checkpoint(config.resume)
-
+        if not os.path.exists(config.log_dir):
+            os.makedirs(config.log_dir)
+        self.warmup = warmup
+    @abstractmethod
+    def _semi_train_epoch(self):
+        raise NotImplementedError
     @abstractmethod
     def _train_epoch(self, epoch):
         """
@@ -59,7 +70,18 @@ class BaseTrainer:
         Full training logic
         """
         not_improved_count = 0
+        best_epoch = 1
         for epoch in range(self.start_epoch, self.epochs + 1):
+            if epoch < self.warmup:
+                if isinstance(self.model, nn.DataParallel):
+                    self.model.module.freeze()
+                else:
+                    self.model.freeze()
+            else:
+                if isinstance(self.model, nn.DataParallel):
+                    self.model.module.unfreeze()
+                else:
+                    self.model.unfreeze()
             result = self._train_epoch(epoch)
 
             # save logged informations into log dict
@@ -87,6 +109,7 @@ class BaseTrainer:
                     self.mnt_best = log[self.mnt_metric]
                     not_improved_count = 0
                     best = True
+                    best_epoch = epoch
                 else:
                     not_improved_count += 1
 
@@ -97,8 +120,15 @@ class BaseTrainer:
 
             if epoch % self.save_period == 0:
                 self._save_checkpoint(epoch, save_best=best)
-
-    def _save_checkpoint(self, epoch, save_best=False):
+        self.logger.info("[Fold-{}]: Best score: {} at epoch {}".format(self.fold_idx,
+                                                                        self.mnt_best,
+                                                                        best_epoch))
+        log_do_semi = self._semi_train_epoch()
+        if log_do_semi:
+            self._save_checkpoint(100, save_best=best, is_semi=True)
+            for key, value in log_do_semi.items():
+                self.logger.info('    {:15s}: {}'.format(str(key), value))
+    def _save_checkpoint(self, epoch, save_best=False, is_semi=False):
         """
         Saving checkpoints
 
@@ -107,19 +137,34 @@ class BaseTrainer:
         :param save_best: if True, rename the saved checkpoint to 'model_best.pth'
         """
         arch = type(self.model).__name__
+
+        if self.ema is not None:
+            state_dict = self.ema.ema.state_dict()
+        else:
+            state_dict = self.model.module.state_dict() if isinstance(self.model, nn.DataParallel) else self.model.state_dict()
+
         state = {
             'arch': arch,
             'epoch': epoch,
-            'state_dict': self.model.state_dict(),
+            'state_dict': state_dict,
             'optimizer': self.optimizer.state_dict(),
             'monitor_best': self.mnt_best,
             'config': self.config
         }
-        filename = str(self.checkpoint_dir / 'checkpoint-epoch{}.pth'.format(epoch))
+        # filename = str(self.checkpoint_dir / 'checkpoint-epoch{}.pth'.format(epoch))
+        if self.only_save_best:
+            filename = os.path.join(self.checkpoint_dir, 'checkpoint_fold{}.pth'.format(self.fold_idx))
+        else:
+            filename = os.path.join(self.checkpoint_dir, 'checkpoint_{}_fold{}.pth'.format(epoch, self.fold_idx))
+            
+        if is_semi:
+            filename = os.path.join(self.checkpoint_dir, 'pseudo_checkpoint_fold{}.pth'.format(self.fold_idx))
         torch.save(state, filename)
         self.logger.info("Saving checkpoint: {} ...".format(filename))
+
         if save_best:
             best_path = str(self.checkpoint_dir / 'model_best.pth')
+            best_path = os.path.join(self.checkpoint_dir, 'model_best_fold{}'.format(self.fold_idx))
             torch.save(state, best_path)
             self.logger.info("Saving current best: model_best.pth ...")
 

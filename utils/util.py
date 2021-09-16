@@ -4,7 +4,7 @@ import pandas as pd
 from pathlib import Path
 from itertools import repeat
 from collections import OrderedDict
-
+import os
 
 def ensure_dir(dirname):
     dirname = Path(dirname)
@@ -46,6 +46,9 @@ def prepare_device(n_gpu_use):
 class MetricTracker:
     def __init__(self, *keys, writer=None):
         self.writer = writer
+        self.epoch = 0 
+        self.res = {key: [] for key in keys}
+        self.res['epoch'] = []
         self._data = pd.DataFrame(index=keys, columns=['total', 'counts', 'average'])
         self.reset()
 
@@ -65,3 +68,21 @@ class MetricTracker:
 
     def result(self):
         return dict(self._data.average)
+
+class SaveCsv:
+    def __init__(self, save_dir, fold_idx):
+        self.df = None
+        self.save_dir = os.path.join(save_dir, 'result_fold{}.csv'.format(fold_idx))
+    
+    def update(self, log):
+
+        if self.df is None:
+            self.df = {key: [] for key in log}
+    
+        for key in log:
+            self.df[key].append(log[key])
+        
+        pd.DataFrame(self.df).to_csv(self.save_dir, index = False)
+
+    
+

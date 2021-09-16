@@ -1,10 +1,23 @@
 {
-    "name": "Mnist_LeNet",
+    "name": "Covid19-resnet18",
     "n_gpu": 1,
 
     "arch": {
-        "type": "MnistModel",
-        "args": {}
+        "type": "Covid19",
+        "args": {"model_name": "resnet18",
+                 "num_classes": 1,
+                 "pretrained": true}
+    },
+    "dataset": {
+        "csv_path": "/home/ubuntu/cuong_test/pytorch-template/split_5_fold.csv",
+        "audio_folder": "/home/ubuntu/cuong_test/AICOVIDVN/dataset/train_audio_files_8k",
+        "training_batch_size": 128,
+        "validate_batch_size": 32,
+        "num_workers": 10,
+        "mfcc_config":
+            {
+                "n_mfcc": 15, "n_fft": 1024, "hop_length": 256, "max_samples": 60000
+            }
     },
     "data_loader": {
         "type": "MnistDataLoader",
@@ -24,14 +37,14 @@
             "amsgrad": true
         }
     },
-    "loss": "nll_loss",
+    "loss": "bce_with_logits_loss",
     "metrics": [
-        "accuracy", "top_k_acc"
+        "accuracy"
     ],
     "lr_scheduler": {
         "type": "StepLR",
         "args": {
-            "step_size": 50,
+            "step_size": 40,
             "gamma": 0.1
         }
     },
@@ -41,7 +54,6 @@
         "save_dir": "saved/",
         "save_period": 1,
         "verbosity": 2,
-        
         "monitor": "min val_loss",
         "early_stop": 10,
 
