@@ -9,7 +9,7 @@ import data_loader.data_loaders as module_data
 import model.loss as module_loss
 import model.metric as module_metric
 import model.model as module_arch
-from data_loader import CovidDataset
+from data_loader import TrainDataset
 from data_loader import AudioCompose, WhiteNoise, TimeShift, ChangePitch, ChangeSpeed
 from audiomentations import Compose, AddGaussianNoise, TimeStretch, PitchShift, Shift, Gain, PolarityInversion, AddGaussianSNR, Normalize
 from parse_config import ConfigParser
@@ -24,8 +24,8 @@ import sklearn
 from torch.optim.swa_utils import AveragedModel, SWALR
 import random
 
-os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+# os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
+# os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 class OneOf(BaseCompose):
     # TODO: Name can change to WaveformCompose
@@ -45,175 +45,52 @@ class OneOf(BaseCompose):
         for transform in self.transforms:
             transform.randomize_parameters(samples, sample_rate)
 
-def roc_auc(output, target):
-    output = torch.sigmoid(output.float())
-    output = output.numpy()
-    target = target.numpy()
-    return sklearn.metrics.roc_auc_score(target, output)
-
-def cut_x3(df_train):
-
-    df = pd.DataFrame({})
-    for i in range(len(df_train)):
-        item = df_train.iloc[i]
-        uuid = item['uuid']
-        if '_2' in uuid or '_3' in uuid:
-        # if uuid[-2] == '_':
-            continue
-        df = df.append(item, ignore_index=True)
-    return df
-
-
-def cut_x5(df_train):
-
-    df = pd.DataFrame({})
-    for i in range(len(df_train)):
-        item = df_train.iloc[i]
-        uuid = item['uuid']
-        if '_2' in uuid or '_3' in uuid or '_1' in uuid or '_0' in uuid:
-            continue
-        df = df.append(item, ignore_index=True)
-    return df
-
-def init_dataset(csv_path, config=None, fold_idx=1, audio_folder=""):
+def init_dataset(csv_path, config=None, fold_idx=1):
     print("*"*10, " fold {}".format(fold_idx), "*"*10)
     """StratifiedKFold"""
-    # df_final = pd.read_csv('/home/hana/sonnh/data/AICovidVN/aicv115m_public_train_full/aicv115m_final_public_train/remove_duplicate/group_included_rmsingle2_kfold_oversampling_new_format.csv')
-    # df_final = cut_x3(df_final)
-    # df_coswara = pd.read_csv('/home/hana/sonnh/data/AICovidVN/coswara/info_kfold_new_format_oversampling.csv')
-    # df_coswara = cut_x3(df_coswara)
-    # df_vifury = pd.read_csv('/home/hana/sonnh/data/AICovidVN/virufy-cdf-coughvid/fillter_rm_slient_kfold_new_format_oversampling.csv')
-    # df_vifury = df_vifury[df_vifury['assessment_result']==1]
-    # df_vifury = cut_x3(df_vifury)
 
-    # df_external = pd.concat([df_final, df_coswara, df_vifury])
-    # print(df_external['assessment_result'].value_counts())
-    # eval_df = df_external[df_external["fold"] == fold_idx]
+    # df_full = pd.read_csv(csv_path)
+    # df_val = df_full[df_full['fold']== fold_idx]
 
-    #* train 29
-    # df_final = pd.read_csv('/home/hana/sonnh/data/AICovidVN/aicv115m_public_train_full/aicv115m_final_public_train/remove_duplicate/group_included_rmsingle2_kfold_oversampling_new_format.csv')
-    # df_final = cut_x3(df_final)
+    df_val = pd.read_csv('/home/hana/sonnh/G2Net/data/g2net-gravitational-wave-detection/sample_submission_with_path.csv')
 
-    # df_external = df_final
-    # print(df_external['assessment_result'].value_counts())
-    # eval_df = df_external[df_external["fold"] == fold_idx]
 
-    #* train 20
-    # df_coswara = pd.read_csv('/home/hana/sonnh/data/AICovidVN/coswara/info_kfold_new_format.csv')
-    # df_vifury = pd.read_csv('/home/hana/sonnh/data/AICovidVN/virufy-cdf-coughvid/fillter_rm_slient_kfold_new_format.csv')
-    # df_vifury = df_vifury[df_vifury['assessment_result']==1]
-    # df_vifury = cut_x3(df_vifury)
-    # df_external = pd.concat([df_coswara, df_vifury])
-    # eval_df = df_external[df_external["fold"] == fold_idx]
-    # print(eval_df['assessment_result'].value_counts())
+    image_width = config['dataset']['image_config']['width']
+    image_height = config['dataset']['image_config']['height']
 
-    #* train 31, 32,33
-    # fold_idx = 1
-    # df_final = pd.read_csv(csv_path)
-    # df_final = cut_x5(df_final)
-    # df_external = df_final 
-    # print(df_external['assessment_result'].value_counts())
-    # train_df = df_external[df_external["fold"] != fold_idx]
-    # eval_df = df_external[df_external["fold"] == fold_idx]
 
-    # * public
-    # df_test = pd.read_csv('/home/hana/sonnh/data/AICovidVN/aicv115m_public_train_full/aicv115m_final_public_test/public_test_sample_submission.csv')
-    # audio_dir = '/home/hana/sonnh/data/AICovidVN/aicv115m_public_train_full/aicv115m_final_public_test/public_test_audio_files/'
-    # df_test['audio_paths'] = ['{}/{}.wav'.format(audio_dir, uuid) for uuid in list(df_test['uuid'])]
-    # eval_df = df_test
+    val_audio_transform = None
+    val_image_transform = albu.Compose([
+            albu.Resize(image_width, image_height, p=1.0),
+            ToTensorV2(p=1.0),
+        ], p=1.)
 
-    df_test = pd.read_csv('/home/hana/sonnh/data/AICovidVN/aicv115m_final_private_test/private_test_sample_submission.csv')
-    audio_dir = '/home/hana/sonnh/data/AICovidVN/aicv115m_final_private_test/private_test_audio_files/'
-    df_test['audio_paths'] = ['{}/{}.wav'.format(audio_dir, uuid) for uuid in list(df_test['uuid'])]
-    eval_df = df_test
-
-    # val_audio_transform = Compose([
-    #     Normalize(p = 1)
-    # ])
-    # val_audio_transform = None
-
-    #* tta
-    # train_audio_transform = OneOf([
-    #                 # AddGaussianNoise(min_amplitude=0.001, max_amplitude=0.015, p=0.5),
-    #                 AddGaussianSNR(p=0.5), # new
-    #                 TimeStretch(min_rate=0.9, max_rate=1.2, p=0.5),
-    #                 PitchShift(min_semitones=-4, max_semitones=4, p=0.5),
-    #                 Shift(min_fraction=-0.5, max_fraction=0.5, p=0.5),
-    #                 PolarityInversion(p=0.5),
-    #                 Gain(
-    #                     min_gain_in_db=-15.0,
-    #                     max_gain_in_db=5.0,
-    #                     p=0.5,),
-    #             ], p=1.0)
-
-    #* 76
-    # df_warmup = pd.read_csv('/media/sonnh/AICOVIDVN/aicv115m_public_train/metadata_train_challenge_kfold2_new_format.csv')
-
-    # eval_df = df_warmup[df_warmup["fold"] == fold_idx]
-    # train_df = df_warmup[df_warmup["fold"] != fold_idx]
-
-    val_audio_transform = Compose([
-        Normalize(p = 1)
-    ])
-
-    validation_dataset = CovidDataset(
-                                df=eval_df,
+    validation_dataset = TrainDataset(
+                                # df=df_val[:2000],
+                                df=df_val,
                                 config=config,
-                                audio_folder=audio_folder,
-                                test = True,
                                 audio_transforms=val_audio_transform,
-                                image_transform=None,
+                                image_transform=val_image_transform,
                             )
-
-    #* normal
-    # validation_dataset = CovidDataset(
-    #                             df=eval_df,
-    #                             config=config,
-    #                             audio_folder=audio_folder,
-    #                             test = True,
-    #                             audio_transforms=val_audio_transform,
-    #                             image_transform=None,
-    #                         )
-
-    # train_dataset = CovidDataset(
-    #                             df=train_df,
-    #                             config=config,
-    #                             audio_folder=audio_folder,
-    #                             test = False,
-    #                             audio_transforms=val_audio_transform,
-    #                             image_transform=None,
-    #                         )
-
+    
     return validation_dataset
 
 def main(config, fold_idx):
     val_dataset = init_dataset(config["dataset"]["csv_path"],
                                               config,  
-                                             fold_idx,
-                                             config["dataset"]["audio_folder"])
+                                             fold_idx)
 
     eval_loader = torch.utils.data.DataLoader(
         val_dataset,
-        # batch_size=config["dataset"]['validate_batch_size'], 
-        batch_size=1, 
+        batch_size=config["dataset"]['validate_batch_size'], 
+        # batch_size=1, 
         num_workers=config["dataset"]['num_workers']
     )
 
-    # train_loader = torch.utils.data.DataLoader(
-    #     train_dataset,
-    #     batch_size=config["dataset"]['validate_batch_size'], 
-    #     # batch_size=1, 
-    #     num_workers=config["dataset"]['num_workers']
-    # )
-
     model = config.init_obj('arch', module_arch)
-    checkpoint_path = 'saved/models/76/0828_114139/model_best_fold{}'.format(fold_idx)
+    checkpoint_path = 'saved/models/g2net_8/0918_213540/model_best_fold{}'.format(fold_idx)
     check_point = torch.load(checkpoint_path)
-
-    #* swa
-    # model = AveragedModel(model)
-    # model.load_state_dict(check_point['state_dict'])
-    
+ 
     #* normal
     model.load_state_dict(check_point['state_dict'])
 
@@ -223,16 +100,6 @@ def main(config, fold_idx):
     if len(device_ids) > 1:
         model = torch.nn.DataParallel(model, device_ids=device_ids)
 
-    # * swa
-    # torch.optim.swa_utils.update_bn(train_loader, model, device=torch.device('cuda')) 
-
-
-    # targets = []
-    
-
-    # tta_time = 1
-    # outputs_final = None
-    # for i in range(tta_time):
     targets = []
     outputs = []
     model.eval()
@@ -251,12 +118,6 @@ def main(config, fold_idx):
     targets = torch.cat(targets)
     outputs = torch.cat(outputs)
 
-    #     if outputs_final is None:
-    #         outputs_final = outputs
-    #     else:
-    #         outputs_final += outputs
-
-    # outputs = outputs_final/3
     print(targets.size())
     print(outputs.size())
     targets = targets.detach().cpu().numpy()
@@ -265,10 +126,9 @@ def main(config, fold_idx):
 
     # print('auc: {}'.format(sklearn.metrics.roc_auc_score(targets, outputs)))
 
-    # df_test = pd.read_csv('/home/hana/sonnh/data/AICovidVN/aicv115m_public_train_full/aicv115m_final_public_test/public_test_sample_submission.csv')
-    df_test = pd.read_csv('/home/hana/sonnh/data/AICovidVN/aicv115m_final_private_test/private_test_sample_submission.csv')
-    df_test['assessment_result'] = outputs
-    df_test.to_csv('/home/hana/sonnh/covidaivn/covid19_res/private_76_9_fold{}_best_.csv'.format(fold_idx), index = False)
+    df_test = pd.read_csv('/home/hana/sonnh/G2Net/data/g2net-gravitational-wave-detection/sample_submission.csv')
+    df_test['target'] = outputs
+    df_test.to_csv('/home/hana/sonnh/G2Net/result/g2net_7.csv'.format(fold_idx), index = False)
 
 
 if __name__ == '__main__':

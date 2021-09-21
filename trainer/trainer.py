@@ -82,26 +82,26 @@ class Trainer(BaseTrainer):
             return False
     
     def _save_only_top_10(self):
-        top_n_model = 10
-        self.df = pd.DataFrame(self.csv_save.df)
-        top_auc = self.df.sort_values(by='val_roc_auc', ascending=False)
-        top10_auc = list(top_auc['epoch'][:top_n_model])
-        # print(top10_auc)
+        # top_n_model = 10
+        # self.df = pd.DataFrame(self.csv_save.df)
+        # top_auc = self.df.sort_values(by='val_roc_auc', ascending=False)
+        # top10_auc = list(top_auc['epoch'][:top_n_model])
+        # # print(top10_auc)
 
-        top_loss = self.df.sort_values(by='val_loss')
-        top10_loss = list(top_loss['epoch'][:top_n_model])
-        # print(top10_loss)
+        # top_loss = self.df.sort_values(by='val_loss')
+        # top10_loss = list(top_loss['epoch'][:top_n_model])
+        # # print(top10_loss)
 
-        top10 = list(set(top10_auc + top10_loss))
-        # print(top10)
+        # top10 = list(set(top10_auc + top10_loss))
+        # # print(top10)
 
-        for epoch in self.df['epoch']:
-            filename = os.path.join(self.checkpoint_dir, 'checkpoint_{}_fold{}.pth'.format(epoch, self.fold_idx))
-            # print(filename)
-            if os.path.isfile(filename):
-                if epoch not in top10:
-                    os.remove(filename)
-
+        # for epoch in self.df['epoch']:
+        #     filename = os.path.join(self.checkpoint_dir, 'checkpoint_{}_fold{}.pth'.format(epoch, self.fold_idx))
+        #     # print(filename)
+        #     if os.path.isfile(filename):
+        #         if epoch not in top10:
+        #             os.remove(filename)
+        pass
 
 
 
@@ -181,7 +181,10 @@ class Trainer(BaseTrainer):
             self.writer.set_step((epoch - 1) * self.len_epoch + batch_idx)
             self.train_metrics.update('loss', loss.item())
 
-            if batch_idx % self.log_step == 0:
+            if (batch_idx % self.log_step == 0 and batch_idx != 0):
+                val_log = self._valid_epoch(epoch, self.valid_data_loader)
+                print(val_log)
+
                 self.logger.debug('Train Epoch: {} {} Loss: {:.6f}'.format(
                     epoch,
                     self._progress(batch_idx),
@@ -206,8 +209,8 @@ class Trainer(BaseTrainer):
             val_log = self._valid_epoch(epoch, self.valid_data_loader)
             log.update(**{'val_'+k : v for k, v in val_log.items()})
 
-            val_log = self._valid_epoch(epoch, self.valid_data_loader_warmup)
-            log.update(**{'val_warmup_'+k : v for k, v in val_log.items()})
+            # val_log = self._valid_epoch(epoch, self.valid_data_loader_warmup)
+            # log.update(**{'val_warmup_'+k : v for k, v in val_log.items()})
 
         if self.lr_scheduler is not None:
             self.lr_scheduler.step()

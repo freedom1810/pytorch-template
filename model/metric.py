@@ -39,7 +39,13 @@ def roc_auc(output, target):
 
 def accuracy(output, target):
     with torch.no_grad():
-        pred = torch.argmax(output, dim=1)
+        #* softmax
+        # pred = torch.argmax(output, dim=1)
+
+        #* sigmoid
+        pred = torch.sigmoid(output) > 0.5
+        pred = pred[:, 0]
+
         assert pred.shape[0] == len(target)
         correct = 0
         correct += torch.sum(pred == target).item()
