@@ -3,6 +3,20 @@ import sklearn
 import numpy as np
 import copy 
 
+def ventilator_metric(preds, y, u_out):
+    """
+    Metric for the problem, as I understood it.
+    """
+    
+    w = 1 - u_out
+    
+    assert y.shape == preds.shape and w.shape == y.shape, (y.shape, preds.shape, w.shape)
+    
+    mae = w * np.abs(y - preds)
+    mae = mae.sum() / w.sum()
+    
+    return mae
+
 def roc_auc_multi_label(output, target, label = 1):
     output = torch.softmax(output, dim = 1).numpy()
     target = target.numpy()
@@ -39,7 +53,13 @@ def roc_auc(output, target):
 
 def accuracy(output, target):
     with torch.no_grad():
-        pred = torch.argmax(output, dim=1)
+        #* softmax
+        # pred = torch.argmax(output, dim=1)
+
+        #* sigmoid
+        pred = torch.sigmoid(output) > 0.5
+        pred = pred[:, 0]
+
         assert pred.shape[0] == len(target)
         correct = 0
         correct += torch.sum(pred == target).item()

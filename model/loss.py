@@ -5,7 +5,17 @@ import torch.nn as nn
 
 def crossentropyloss(output, target):
     return torch.nn.CrossEntropyLoss(reduction='mean')(output, target)
-     
+
+class VentilatorLoss(torch.nn.Module):
+    """
+    Directly optimizes the competition metric
+    """
+    def __call__(self, preds, y, u_out):
+        w = 1 - u_out
+        mae = w * (y - preds).abs()
+        mae = mae.sum(-1) / w.sum(-1)
+
+        return mae
 
 class LabelSmoothingLoss(torch.nn.Module):
     def __init__(self, smoothing: float = 0.05, reduction="mean", weight=None, training=True):
@@ -51,8 +61,6 @@ class LabelSmoothingLoss(torch.nn.Module):
 
 def labelsmoothingloss(output, target):
     return LabelSmoothingLoss(smoothing = 0.05)(output, target)
-
-
 
 def nll_loss(output, target):
     return F.nll_loss(output, target)

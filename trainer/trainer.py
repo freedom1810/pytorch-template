@@ -49,38 +49,7 @@ class Trainer(BaseTrainer):
         self.train_metrics = MetricTracker('loss', *[m.__name__ for m in self.metric_ftns], writer=self.writer)
         self.valid_metrics = MetricTracker('loss', *[m.__name__ for m in self.metric_ftns], writer=self.writer)
         self.csv_save = SaveCsv(self.checkpoint_dir, fold_idx)
-    def _semi_train_epoch(self):
-        if self.do_pseudo:
-            for epoch_idx in range(self.semi_epochs):
-                print("Semi train epoch", epoch_idx)
-                print("total batch :", len(self.unlabeled_loader))
-                for batch_idx, (data, _) in enumerate(self.unlabeled_loader):
-                    self.optimizer.zero_grad()
-                    data = data.to(self.device)
-                    self.model.eval()
-                    with torch.no_grad():
-                        output_unlabeled = self.model(data)
-                        output_unlabeled[output_unlabeled>=0.5] = 1.0
-                        output_unlabeled[output_unlabeled<0.5] = 0.0
-                    self.model.train()
-                    output = self.model(data)
-                    loss = self.train_criterion(output, output_unlabeled)
-                    loss.backward()
-                    self.optimizer.step()
-                    if batch_idx % self.log_step == 0:
-                        self.logger.debug('Semi Train Epoch: {} Loss: {:.6f}'.format(
-                            epoch_idx,
-                            loss.item()))
-                    if (batch_idx % 5) == 0:
-                        self._train_epoch(self.epochs+1+epoch_idx)
-            log = self.train_metrics.result()
-            if self.do_validation:
-                val_log = self._valid_epoch(self.epochs+1+epoch_idx)
-                log.update(**{'val_'+k : v for k, v in val_log.items()})
-            return log
-        else:
-            return False
-    
+
     def _save_only_top_10(self):
         top_n_model = 10
         self.df = pd.DataFrame(self.csv_save.df)
@@ -101,9 +70,6 @@ class Trainer(BaseTrainer):
             if os.path.isfile(filename):
                 if epoch not in top10:
                     os.remove(filename)
-
-
-
 
     def _save_checkpoint(self, epoch, save_best=False, is_semi=False):
         """
@@ -133,7 +99,7 @@ class Trainer(BaseTrainer):
             filename = os.path.join(self.checkpoint_dir, 'checkpoint_fold{}.pth'.format(self.fold_idx))
         else:
             filename = os.path.join(self.checkpoint_dir, 'checkpoint_{}_fold{}.pth'.format(epoch, self.fold_idx))
-            self._save_only_top_10()
+            # self._save_only_top_10()
         if is_semi:
             filename = os.path.join(self.checkpoint_dir, 'pseudo_checkpoint_fold{}.pth'.format(self.fold_idx))
         torch.save(state, filename)
@@ -159,14 +125,15 @@ class Trainer(BaseTrainer):
         self.optimizer.zero_grad()
         # for batch_idx, (data, target) in enumerate(tqdm(self.data_loader)):
         for batch_idx, info in enumerate(tqdm(self.data_loader)):
-            data = info['data']
-            target = info['target']
-            data, target = data.to(self.device), target.to(self.device)
+            data = info['input'].to(self.device)
+            target = info['p'].to(self.device)
+            u_out = info['u_out'].to(self.device)
+
             with amp.autocast(enabled=self.fp16):
 
-                output = self.model(data, fp16 = self.fp16)
-                # print(output.size(), target.size())
-                loss = self.train_criterion(output, target.unsqueeze(1).float())
+                output = self.model(data, fp16 = self.fp16).squeeze(-1)
+                # loss = self.train_criterion(output, target, u_out).mean()
+            loss = self.train_criterion(output[u_out == 0], target[u_out == 0])
                 # loss.backward()
                 # self.optimizer.step()
 
@@ -189,7 +156,6 @@ class Trainer(BaseTrainer):
             if batch_idx == self.len_epoch:
                 break
 
-
             if self.ema:
                 self.ema.update(self.model)
 
@@ -206,8 +172,8 @@ class Trainer(BaseTrainer):
             val_log = self._valid_epoch(epoch, self.valid_data_loader)
             log.update(**{'val_'+k : v for k, v in val_log.items()})
 
-            val_log = self._valid_epoch(epoch, self.valid_data_loader_warmup)
-            log.update(**{'val_warmup_'+k : v for k, v in val_log.items()})
+            # val_log = self._valid_epoch(epoch, self.valid_data_loader_warmup)
+            # log.update(**{'val_warmup_'+k : v for k, v in val_log.items()})
 
         if self.lr_scheduler is not None:
             self.lr_scheduler.step()
@@ -242,12 +208,13 @@ class Trainer(BaseTrainer):
         with torch.no_grad():
             # for batch_idx, (data, target) in enumerate(tqdm(valid_data_loader)):
             for batch_idx, info in enumerate(tqdm(valid_data_loader)):
-                data = info['data']
-                target = info['target']
-                data, target = data.to(self.device), target.to(self.device)
-                target = target.to(dtype=torch.long)
-                output = self.model_eval(data)
-                loss = self.val_criterion(output, target.unsqueeze(1).float())
+                data = info['input'].to(self.device)
+                target = info['p'].to(self.device)
+                u_out = info['u_out'].to(self.device)
+            
+                output = self.model(data, fp16 = self.fp16).squeeze(-1)
+                loss = self.val_criterion(output, target, u_out).mean()
+
                 targets.append(target.detach().cpu())
                 outputs.append(output.detach().cpu())
                 self.writer.set_step((epoch - 1) * len(valid_data_loader) + batch_idx, 'valid')

@@ -1,21 +1,23 @@
 {
-    "name": "all_stack_4",
+    "name": "1",
     "n_gpu": 2,
     "fp16": false,
     "ema": false,
 
     "arch": {
-        "type": "StackNet2",
+        "type": "RNNModel",
         "args": {
-            "num_classes": 1,
-            "num_features": 23
+            "input_dim" : 19,
+            "lstm_dim" : 1024,
+            "dense_dim" : 512,
+            "logit_dim" : 256,
+            "num_classes" : 1
         }
     },
     "dataset": {
-        "csv_path": "/home/hana/sonnh/covidaivn/stack_feature/group_included_rmsingle2__rm_audio_slient_kfold.csv",
-        "data_path": "/home/hana/sonnh/covidaivn/stack_feature/data_all.pkl",
-        "training_batch_size": 16,
-        "validate_batch_size": 32,
+        "csv_path": "/home/hana/sonnh/Google-Brain-Ventilator-Pressure-Prediction/train_kfold.csv",
+        "training_batch_size": 512,
+        "validate_batch_size": 512,
         "num_workers": 20,
         "cache": true
     },
@@ -28,7 +30,6 @@
     "train_loss": "bce_with_logits_loss",
     "val_loss": "bce_with_logits_loss",
     "metrics": [
-        "roc_auc"
     ],
     "lr_scheduler": {
         "type": "StepLR",
@@ -38,12 +39,12 @@
         }
     },
     "trainer": {
-        "epochs": 50,
+        "epochs": 200,
         "only_save_best": false,
         "save_dir": "saved/",
         "save_period": 1,
         "verbosity": 2,
-        "monitor": "max val_roc_auc",
+        "monitor": "min val_loss",
         "early_stop": 100,
         "tensorboard": true
     }
