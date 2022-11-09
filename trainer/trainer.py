@@ -14,9 +14,23 @@ class Trainer(BaseTrainer):
     """
     Trainer class
     """
-    def __init__(self, model, train_criterion, val_criterion, metric_ftns, optimizer, config, device,
-                 data_loader, valid_data_loader=None, valid_data_loader_warmup = None, unlabeled_loader=None,
-                 lr_scheduler=None, len_epoch=None, fold_idx=0, warmup=0):
+    def __init__(
+        self, 
+        model, 
+        train_criterion, 
+        val_criterion, 
+        metric_ftns, 
+        optimizer, 
+        config, 
+        device,
+        data_loader,
+        valid_data_loader=None, 
+        lr_scheduler = None,
+        len_epoch=None, 
+        fold_idx=0, 
+        warmup=0
+        ):
+
         super().__init__(model, train_criterion, val_criterion, metric_ftns, optimizer, config, fold_idx, warmup)
         self.config = config
         self.device = device
@@ -37,17 +51,18 @@ class Trainer(BaseTrainer):
             # iteration-based training
             self.data_loader = inf_loop(data_loader)
             self.len_epoch = len_epoch
+
         self.valid_data_loader = valid_data_loader
-        self.valid_data_loader_warmup = valid_data_loader_warmup
-        self.unlabeled_loader = unlabeled_loader
         self.do_validation = self.valid_data_loader is not None
+        
         self.lr_scheduler = lr_scheduler
+
         self.log_step = int(np.sqrt(data_loader.batch_size))
         self.log_step = int(len(data_loader) // 5)
-        self.semi_epochs = 20
-        self.do_pseudo = self.unlabeled_loader is not None
+
         self.train_metrics = MetricTracker('loss', *[m.__name__ for m in self.metric_ftns], writer=self.writer)
         self.valid_metrics = MetricTracker('loss', *[m.__name__ for m in self.metric_ftns], writer=self.writer)
+
         self.csv_save = SaveCsv(self.checkpoint_dir, fold_idx)
 
     def _save_only_top_10(self):
@@ -125,15 +140,14 @@ class Trainer(BaseTrainer):
         self.optimizer.zero_grad()
         # for batch_idx, (data, target) in enumerate(tqdm(self.data_loader)):
         for batch_idx, info in enumerate(tqdm(self.data_loader)):
-            data = info['input'].to(self.device)
-            target = info['p'].to(self.device)
-            u_out = info['u_out'].to(self.device)
+            data = info['image'].to(self.device)
+            target = info['label'].to(self.device)
 
             with amp.autocast(enabled=self.fp16):
 
                 output = self.model(data, fp16 = self.fp16).squeeze(-1)
                 # loss = self.train_criterion(output, target, u_out).mean()
-            loss = self.train_criterion(output[u_out == 0], target[u_out == 0])
+            loss = self.train_criterion(output, target)
                 # loss.backward()
                 # self.optimizer.step()
 
@@ -172,9 +186,6 @@ class Trainer(BaseTrainer):
             val_log = self._valid_epoch(epoch, self.valid_data_loader)
             log.update(**{'val_'+k : v for k, v in val_log.items()})
 
-            # val_log = self._valid_epoch(epoch, self.valid_data_loader_warmup)
-            # log.update(**{'val_warmup_'+k : v for k, v in val_log.items()})
-
         if self.lr_scheduler is not None:
             self.lr_scheduler.step()
             
@@ -208,12 +219,11 @@ class Trainer(BaseTrainer):
         with torch.no_grad():
             # for batch_idx, (data, target) in enumerate(tqdm(valid_data_loader)):
             for batch_idx, info in enumerate(tqdm(valid_data_loader)):
-                data = info['input'].to(self.device)
-                target = info['p'].to(self.device)
-                u_out = info['u_out'].to(self.device)
+                data = info['image'].to(self.device)
+                target = info['label'].to(self.device)
             
                 output = self.model(data, fp16 = self.fp16).squeeze(-1)
-                loss = self.val_criterion(output, target, u_out).mean()
+                loss = self.val_criterion(output, target)
 
                 targets.append(target.detach().cpu())
                 outputs.append(output.detach().cpu())
@@ -234,3 +244,6 @@ class Trainer(BaseTrainer):
             current = batch_idx
             total = self.len_epoch
         return base.format(current, total, 100.0 * current / total)
+
+    def _semi_train_epoch(self):
+        return None

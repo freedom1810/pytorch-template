@@ -5,19 +5,19 @@
     "ema": false,
 
     "arch": {
-        "type": "RNNModel",
+        "type": "TimmBackbone",
         "args": {
-            "input_dim" : 19,
-            "lstm_dim" : 1024,
-            "dense_dim" : 512,
-            "logit_dim" : 256,
-            "num_classes" : 1
+            "model_name": "tf_efficientnet_b0_ns",
+            "num_classes": 1,
+            "inchannels": 3,
+            "pretrained": true
         }
     },
     "dataset": {
-        "csv_path": "/home/hana/sonnh/Google-Brain-Ventilator-Pressure-Prediction/train_kfold.csv",
-        "training_batch_size": 512,
-        "validate_batch_size": 512,
+        "csv_path": "/home/asilla/sonnh/liveness/data/train/kfold.csv",
+        "image_dir": "/home/asilla/sonnh/liveness/data/train/images",
+        "training_batch_size": 32,
+        "validate_batch_size": 32,
         "num_workers": 20,
         "cache": true
     },
@@ -39,7 +39,7 @@
         }
     },
     "trainer": {
-        "epochs": 200,
+        "epochs": 20,
         "only_save_best": false,
         "save_dir": "saved/",
         "save_period": 1,

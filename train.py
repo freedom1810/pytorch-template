@@ -15,12 +15,18 @@ import data_loader.data_loaders as module_data
 import model.loss as module_loss
 import model.metric as module_metric
 import model.model as module_arch
-from data_loader import TrainDataset
+from data_loader import LivenessDataset
 from parse_config import ConfigParser
 from trainer import Trainer
 # from trainer import TrainerSwa as Trainer
 from utils import prepare_device
 
+from albumentations import Compose, Resize, Transpose, HorizontalFlip, \
+                        VerticalFlip, ShiftScaleRotate, HueSaturationValue, \
+                        RandomBrightnessContrast, Normalize, \
+                        CoarseDropout, Cutout
+from albumentations.pytorch.transforms import ToTensorV2
+import cv2
 
 # fix random seeds for reproducibility
 def seed_everything(seed):
@@ -44,26 +50,55 @@ def init_dataset(csv_path, config=None, fold_idx=1):
     """StratifiedKFold"""
 
     df_full = pd.read_csv(csv_path)
+    # print(df_full.shape)
     # print(df_full.head())
     df_train = df_full[df_full['fold']!= fold_idx]
+    # print(df_train.shape)
     df_val = df_full[df_full['fold']== fold_idx]
+    # print(df_val.shape)
+    # raise 'ewe'
 
-    train_transform = None
-    val_transform = None
+    # train_transform = None
+    # val_transform = None
 
-    train_dataset = TrainDataset(
-            # df=df_train[:2000],
-            df=df_train,
-            config=config,
-            transform=train_transform,
+    train_transform = Compose([
+        Resize(256, 256, cv2.INTER_AREA),
+        # Transpose(p=0.5),
+        # HorizontalFlip(p=0.5),
+        # VerticalFlip(p=0.5),
+        # ShiftScaleRotate(p=0.5),
+        # HueSaturationValue(hue_shift_limit=0.2, sat_shift_limit=0.2, val_shift_limit=0.2, p=0.5),
+        # RandomBrightnessContrast(brightness_limit=(-0.1,0.1), contrast_limit=(-0.1, 0.1), p=0.5),
+        Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0, p=1.0),
+        CoarseDropout(p=0.5),
+        Cutout(p=0.5),
+        ToTensorV2(p=1.0),
+        ], p=1.0)
+
+    val_transform = Compose([
+        Resize(256, 256, cv2.INTER_AREA),
+        # Transpose(p=0.5),
+        # HorizontalFlip(p=0.5),
+        # VerticalFlip(p=0.5),
+        # ShiftScaleRotate(p=0.5),
+        # HueSaturationValue(hue_shift_limit=0.2, sat_shift_limit=0.2, val_shift_limit=0.2, p=0.5),
+        # RandomBrightnessContrast(brightness_limit=(-0.1,0.1), contrast_limit=(-0.1, 0.1), p=0.5),
+        Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0, p=1.0),
+        ToTensorV2(p=1.0),
+        ], p=1.0)
+
+
+    train_dataset = LivenessDataset(
+        df=df_train,
+        config=config,
+        transform=train_transform,
         )
 
-    validation_dataset = TrainDataset(
-                                # df=df_val[:2000],
-                                df=df_val,
-                                config=config,
-                                transform=val_transform,
-                            )
+    validation_dataset = LivenessDataset(
+        df=df_val,
+        config=config,
+        transform=val_transform,
+        )
     return train_dataset, validation_dataset
 
 def main(config, fold_idx):
@@ -103,10 +138,10 @@ def main(config, fold_idx):
         model = torch.nn.DataParallel(model, device_ids=device_ids)
 
     # get function handles of loss and metrics
-    # train_criterion = getattr(module_loss, config['train_loss'])
-    # val_criterion = getattr(module_loss, config['val_loss'])
-    train_criterion = nn.L1Loss()
-    val_criterion = module_loss.VentilatorLoss()
+    train_criterion = getattr(module_loss, config['train_loss'])
+    val_criterion = getattr(module_loss, config['val_loss'])
+    # train_criterion = nn.L1Loss()
+    # val_criterion = module_loss.VentilatorLoss()
 
     metrics = [getattr(module_metric, met) for met in config['metrics']]
 
@@ -149,5 +184,5 @@ if __name__ == '__main__':
         CustomArgs(['--bs', '--batch_size'], type=int, target='data_loader;args;batch_size')
     ]
     config = ConfigParser.from_args(args, options)
-    for fold_idx in range(1, 6):
+    for fold_idx in range(5):
         main(config, fold_idx)
